@@ -11,7 +11,8 @@ import { useEffect, useState } from "react";
 import { getLedger, getLedgerEntry } from "./utils/Ledger";
 import { getFinal } from './utils/Final';
 import { getReciept } from "./utils/Reciept";
-
+import { Link } from "react-router-dom";
+import { getReturnRecord } from './utils/ReturnRecord';
 
 function Hello() {
 
@@ -26,6 +27,7 @@ function Hello() {
   const [ledgerEntry, setledgerEntry] = useState([]);
   const [final, setfinal] = useState([]);
   const [receipt, setreceipt] = useState([]);
+  const [returnRecord, setreturnRecord] = useState([]);
   useEffect(() => {
     async function userData() {
       await getUser().then((res) => {
@@ -81,6 +83,12 @@ function Hello() {
       })
     }
 
+    async function returnData() {
+      await getReturnRecord().then((res) => {
+        setreturnRecord(res)
+      })
+    }
+
 
     userData()
     ruleData()
@@ -91,6 +99,7 @@ function Hello() {
     ledgerEntryData()
     finalData()
     receiptData()
+    returnData()
   }, [])
 
 
@@ -183,29 +192,29 @@ function Hello() {
           </div>
           {/* main page */}
           <div className="w-full h-[70vh] flex flex-col justify-evenly lg:grid lg:grid-cols-3 lg:gap-x-4 p-12">
-            <div
+            <Link to={`/user/${param.user}/clientanalytic`} state={{ receipt: receipt, sale: sale, returnRecord: returnRecord }}
               style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px", transition: '0.4s ease-in-out' }}
               className="h-[60%] hover:bg-blue-100 hover:scale-105 cursor-pointer w-[100%] flex flex-col items-center justify-center mt-4 self-center"
             >
 
               <h1 className="uppercase font-bold " >Client Analytics</h1>
-            </div>
+            </Link>
 
-            <div
+            <Link to={`/user/${param.user}/inventorymanagement`} state={{ inventory: inventory, sale: sale, purchase: purchase, returnRecord: returnRecord, user: found, rule: rule }}
               style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px", transition: '0.4s ease-in-out' }}
               className="h-[60%] hover:bg-blue-100 hover:scale-105 cursor-pointer w-[100%] flex flex-col items-center justify-center mt-4 self-center"
             >
 
               <h1 className="uppercase font-bold " >Inventory Management</h1>
-            </div>
+            </Link>
 
-            <div
+            <Link to={`/user/${param.user}/growthchart`} state={{ final: final, sale: sale, purchase: purchase }}
               style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px", transition: '0.4s ease-in-out' }}
               className="h-[60%] hover:bg-blue-100 hover:scale-105 cursor-pointer w-[100%] flex flex-col items-center justify-center mt-4 self-center"
             >
 
               <h1 className="uppercase font-bold " >Growth Data</h1>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
