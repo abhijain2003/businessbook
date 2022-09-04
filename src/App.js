@@ -19,6 +19,14 @@ import TrialBalance from "./Ledger/TrialBalance";
 import RecieptBook from './Reciept/RecieptBook';
 import RecieptInvoice from './Reciept/RecieptInvoice';
 import FinalAccount from "./FinalAccounts/FinalAccount";
+import GrowthData from "./GrowthChart/GrowthData";
+import ClientAnalytics from "./ClientAnalytics/ClientAnalytics";
+import InventoryManagement from "./inventory/InventoryManagement";
+import InventoryPurchase from "./inventory/InventoryPurchase";
+import InventoryReturn from "./inventory/InventoryReturn";
+import InventorySale from "./inventory/InventorySale";
+import InventorySaleBill from './inventory/InventorySaleBill';
+import ReturnEntry from './inventory/ReturnEntry';
 
 function App() {
 
@@ -40,7 +48,15 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route element={<FinalAccount />} path='/user/:user/final' /> 
+        <Route element={<ReturnEntry />} path="/user/:user/returnentry" />
+        <Route element={<InventorySaleBill />} path='/user/:user/inventorysalebill' />
+        <Route element={<InventorySale />} path='/user/:user/inventorysale' />
+        <Route element={<InventoryReturn />} path='/user/:user/inventoryreturn' />
+        <Route element={<InventoryPurchase />} path='/user/:user/inventorypurchase' />
+        <Route element={<InventoryManagement />} path="/user/:user/inventorymanagement" />
+        <Route element={<ClientAnalytics />} path='/user/:user/clientanalytic' />
+        <Route element={<GrowthData />} path='/user/:user/growthchart' />
+        <Route element={<FinalAccount />} path='/user/:user/final' />
         <Route element={<RecieptBook />} path="/user/:user/recieptbook" />
         <Route element={<RecieptInvoice />} path="/user/:user/recieptinvoice" />
         <Route element={<Ledger />} path="/user/:user/ledger" />
