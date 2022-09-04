@@ -2,7 +2,6 @@
 import React, { useState } from 'react'; // import React and useState
 import { getUser } from "../utils/User"; //import user data;
 import bcrypt from "bcryptjs" // import bcrypt for hashing and salting
-import { setCookie } from "cookies-next"; // import setcookie for login persistance
 import { ToastContainer, toast } from 'react-toastify'; // import taost notifier for message alert
 import 'react-toastify/dist/ReactToastify.css'; // css for message alerts
 import logo from "../assets/logo.png";
@@ -41,10 +40,10 @@ function LoginBox() {
                 //if user is not found
                 if (foundUserId.length !== 0) {
                     successNotify();
-                    setCookie("User", com.companyName, { maxAge: 3600 * 60 * 24 * 10000 });  //setting cookies with user info
-                    setCookie("isLoggedIn", true, { maxAge: 3600 * 60 * 24 * 10000 }); //setting cookies that user is loggedIn
+                    window.localStorage.setItem("User", com.companyName)
+                    window.localStorage.setItem("isLoggedIn", true)
                     // router.push(`/user/${com.companyName}`); //redirecting to main page
-                    navigate('/hello')
+                    navigate(`/user/${com.companyName}`)
                 } else {
                     infoNotify();
                 }
@@ -61,7 +60,7 @@ function LoginBox() {
         <div className="text-center sm:w-[60%] mx-auto">
             <ToastContainer />
             <div className="flex" >
-            <img src={logo} className='mx-auto' style={{ width: '200px', height: '200px',  }} />
+                <img src={logo} className='mx-auto' style={{ width: '200px', height: '200px', }} />
             </div>
             <div className="md:ml-2 ">
                 <label
@@ -93,8 +92,8 @@ function LoginBox() {
                     >
                         forgot Your Login Id
                     </label>
-                    {/* <p onClick={() => { router.push("/user/login/Forgot"); }}
-                        className="text-orange-500 underline cursor-pointer">Do not Worry reset it</p> */}
+                    <p onClick={() => { navigate("/forgot") }}
+                        className="text-orange-500 underline cursor-pointer">Do not Worry reset it</p>
                 </div>
             </div>
             {/* signup content */}

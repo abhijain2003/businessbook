@@ -5,17 +5,24 @@ import { auth } from "../utils/firebase"
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { getUser, updateUser } from "../utils/User";
 import logo from "../assets/logo.png";
-
-export async function getServerSideProps(context) {
-  let data = await getUser().then((res) => { return res });
-  return {
-    props: { data }, // will be passed to the page component as props
-  }
-}
+import { useNavigate } from "react-router-dom";
 
 
 
-function Forgot({ data }) {
+function Forgot() {
+
+  const [data, setdata] = useState([]);
+  useEffect(() => {
+    async function userData() {
+      await getUser().then((res) => {
+        setdata(res);
+      });
+    }
+
+    userData()
+  }, [])
+
+  const navigate = useNavigate();
 
 
   const [value, setvalue] = useState(""); //number
@@ -89,7 +96,7 @@ function Forgot({ data }) {
         updateUser(foundUser[0].id, hash);
       });
     });
-    // router.push("/")
+    navigate('/')
   }
 
   return (
