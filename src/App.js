@@ -7,6 +7,12 @@ import Hello from "./Hello";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Profile from './Profile/Profile';
+import SalesBook from './Sales/SalesBook';
+import SalesTaxReturn from './Sales/SalesTaxReturn';
+import SalesInvoice from "./Sales/SalesInvoice";
+import PurchaseInvoice from "./Purchase/PurchaseInvoice";
+import PurchaseBook from './Purchase/PurchaseBook';
+import PurchaseTaxReturn from './Purchase/PurchaseTaxReturn';
 
 
 function App() {
@@ -29,6 +35,12 @@ function App() {
   return (
     <div className="App">
       <Routes>
+        <Route element={<PurchaseTaxReturn />} path="/user/:user/purchasetaxreturn" />
+        <Route element={<PurchaseInvoice />} path="/user/:user/purchaseinvoice" />
+        <Route element={<PurchaseBook />} path="/user/:user/purchasebook" />
+        <Route element={<SalesTaxReturn />} path="/user/:user/salestaxreturn" />
+        <Route element={<SalesInvoice />} path="/user/:user/salesinvoice" />
+        <Route element={<SalesBook />} path="/user/:user/salesbook" />
         <Route element={<Hello />} path='/user/:user' />
         <Route element={<Profile />} path='/user/:user/profile' />
         <Route element={<Home />} path='/' />
