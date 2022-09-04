@@ -13,7 +13,12 @@ import SalesInvoice from "./Sales/SalesInvoice";
 import PurchaseInvoice from "./Purchase/PurchaseInvoice";
 import PurchaseBook from './Purchase/PurchaseBook';
 import PurchaseTaxReturn from './Purchase/PurchaseTaxReturn';
-
+import Ledger from "./Ledger/Ledger";
+import LedgerRecord from "./Ledger/LedgerRecord";
+import TrialBalance from "./Ledger/TrialBalance";
+import RecieptBook from './Reciept/RecieptBook';
+import RecieptInvoice from './Reciept/RecieptInvoice';
+import FinalAccount from "./FinalAccounts/FinalAccount";
 
 function App() {
 
@@ -35,6 +40,12 @@ function App() {
   return (
     <div className="App">
       <Routes>
+        <Route element={<FinalAccount />} path='/user/:user/final' /> 
+        <Route element={<RecieptBook />} path="/user/:user/recieptbook" />
+        <Route element={<RecieptInvoice />} path="/user/:user/recieptinvoice" />
+        <Route element={<Ledger />} path="/user/:user/ledger" />
+        <Route element={<LedgerRecord />} path="/user/:user/ledegerrecord" />
+        <Route element={<TrialBalance />} path="/user/:user/trialbalance" />
         <Route element={<PurchaseTaxReturn />} path="/user/:user/purchasetaxreturn" />
         <Route element={<PurchaseInvoice />} path="/user/:user/purchaseinvoice" />
         <Route element={<PurchaseBook />} path="/user/:user/purchasebook" />
