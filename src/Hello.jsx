@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom";
 import mainLogo from './assets/main_logo.png';
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getLedger, getLedgerEntry } from "./utils/Ledger";
+import { getFinal } from './utils/Final';
+import { getReciept } from "./utils/Reciept";
 
 
 function Hello() {
@@ -19,6 +22,10 @@ function Hello() {
   const [sale, setsale] = useState([]);
   const [purchase, setpurchase] = useState([]);
   const [inventory, setinventory] = useState([]);
+  const [ledger, setledger] = useState([]);
+  const [ledgerEntry, setledgerEntry] = useState([]);
+  const [final, setfinal] = useState([]);
+  const [receipt, setreceipt] = useState([]);
   useEffect(() => {
     async function userData() {
       await getUser().then((res) => {
@@ -50,11 +57,40 @@ function Hello() {
       })
     }
 
+    async function ledgerData() {
+      await getLedger().then((res) => {
+        setledger(res);
+      });
+    }
+
+    async function ledgerEntryData() {
+      await getLedgerEntry().then((res) => {
+        setledgerEntry(res);
+      });
+    }
+
+    async function finalData() {
+      await getFinal().then((res) => {
+        setfinal(res)
+      })
+    }
+
+    async function receiptData() {
+      await getReciept().then((res) => {
+        setreceipt(res)
+      })
+    }
+
+
     userData()
     ruleData()
     saleData()
     stockData()
     purData()
+    ledgerData()
+    ledgerEntryData()
+    finalData()
+    receiptData()
   }, [])
 
 
@@ -69,12 +105,12 @@ function Hello() {
     { id: 4, name: "Purchase Invoice", routing: `/user/${param.user}/purchaseinvoice` },
     { id: 5, name: "Purchase Book", routing: `/user/${param.user}/purchasebook` },
     { id: 6, name: "Purchase Tax Return", routing: `/user/${param.user}/purchasetaxreturn` },
-    // { id: 7, name: "Reciept Invoice" },
-    // { id: 8, name: "Reciept Book" },
-    // { id: 9, name: "Ledger" },
-    // { id: 10, name: "Ledger Record" },
-    // { id: 11, name: "Trial Balance" },
-    // { id: 12, name: "Final Account" },
+    { id: 7, name: "Ledger", routing: `/user/${param.user}/ledger` },
+    { id: 8, name: "Ledger Entries", routing: `/user/${param.user}/ledegerrecord` },
+    { id: 9, name: "Trial Balance", routing: `/user/${param.user}/trialbalance` },
+    { id: 10, name: "Reciept Invoice", routing: `/user/${param.user}/recieptinvoice` },
+    { id: 11, name: "Reciept Book", routing: `/user/${param.user}/recieptbook` },
+    { id: 12, name: "Final Account", routing: `/user/${param.user}/final` },
   ];
 
   const settings = {
@@ -136,7 +172,7 @@ function Hello() {
                 <pre
                   key={i}
                   onClick={() =>
-                    navigate(val.routing, { state: { user: found, sale: sale, rule: rule, inventory: inventory, purchase: purchase } })
+                    navigate(val.routing, { state: { user: found, sale: sale, rule: rule, inventory: inventory, purchase: purchase, ledger: ledger, ledgerEntry: ledgerEntry, final: final, receipt: receipt } })
                   }
                   className="p-2 font-bold text-center cursor-pointer"
                 >
