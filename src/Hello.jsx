@@ -1,5 +1,8 @@
 import React from "react";
-import { getUser } from './utils/User';
+import { getUser, getRule } from './utils/User';
+import { getSales } from "./utils/Sales";
+import { getInventory } from './utils/Inventory';
+import { getPur } from "./utils/Purchase";
 import Slider from "react-slick";
 import { useNavigate } from "react-router-dom";
 import mainLogo from './assets/main_logo.png';
@@ -12,6 +15,10 @@ function Hello() {
   const param = useParams()
 
   const [data, setdata] = useState([]);
+  const [rule, setrule] = useState([]);
+  const [sale, setsale] = useState([]);
+  const [purchase, setpurchase] = useState([]);
+  const [inventory, setinventory] = useState([]);
   useEffect(() => {
     async function userData() {
       await getUser().then((res) => {
@@ -19,7 +26,35 @@ function Hello() {
       });
     }
 
+    async function ruleData() {
+      await getRule().then((res) => {
+        setrule(res);
+      });
+    }
+
+    async function saleData() {
+      await getSales().then((res) => {
+        setsale(res);
+      });
+    }
+
+    async function stockData() {
+      await getInventory().then((res) => {
+        setinventory(res);
+      });
+    }
+
+    async function purData() {
+      await getPur().then((res) => {
+        setpurchase(res)
+      })
+    }
+
     userData()
+    ruleData()
+    saleData()
+    stockData()
+    purData()
   }, [])
 
 
@@ -28,18 +63,18 @@ function Hello() {
   const found = data.filter((com) => com.companyName === param.user);
 
   const items = [
-    { id: 1, name: "Sales Invoice", folder: "Sales" },
-    { id: 2, name: "Sales Book", folder: "Sales" },
-    { id: 3, name: "Sales Tax Return", folder: "Sales" },
-    { id: 4, name: "Purchase Invoice", folder: "Purchase" },
-    { id: 5, name: "Purchase Book", folder: "Purchase" },
-    { id: 6, name: "Purchase Tax Return", folder: "Purchase" },
-    { id: 7, name: "Reciept Invoice", folder: "Reciept" },
-    { id: 8, name: "Reciept Book", folder: "Reciept" },
-    { id: 9, name: "Ledger", folder: "Ledger" },
-    { id: 10, name: "Ledger Record", folder: "Ledger" },
-    { id: 11, name: "Trial Balance", folder: "Ledger" },
-    { id: 12, name: "Final Account", folder: "FinalAccounts" },
+    { id: 1, name: "Sales Invoice", routing: `/user/${param.user}/salesinvoice` },
+    { id: 2, name: "Sales Book", routing: `/user/${param.user}/salesbook` },
+    { id: 3, name: "Sales Tax Return", routing: `/user/${param.user}/salestaxreturn` },
+    { id: 4, name: "Purchase Invoice", routing: `/user/${param.user}/purchaseinvoice` },
+    { id: 5, name: "Purchase Book", routing: `/user/${param.user}/purchasebook` },
+    { id: 6, name: "Purchase Tax Return", routing: `/user/${param.user}/purchasetaxreturn` },
+    // { id: 7, name: "Reciept Invoice" },
+    // { id: 8, name: "Reciept Book" },
+    // { id: 9, name: "Ledger" },
+    // { id: 10, name: "Ledger Record" },
+    // { id: 11, name: "Trial Balance" },
+    // { id: 12, name: "Final Account" },
   ];
 
   const settings = {
@@ -101,7 +136,7 @@ function Hello() {
                 <pre
                   key={i}
                   onClick={() =>
-                    alert("heloo")
+                    navigate(val.routing, { state: { user: found, sale: sale, rule: rule, inventory: inventory, purchase: purchase } })
                   }
                   className="p-2 font-bold text-center cursor-pointer"
                 >

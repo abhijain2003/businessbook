@@ -2,7 +2,8 @@ import {
     addDoc,
     collection,
     getDocs,
-    updateDoc
+    updateDoc,
+    doc
 } from "firebase/firestore";
 import { db } from "./firebase";
 
@@ -28,8 +29,8 @@ export const getInventory = async () => {
     return stockArr;
 }
 
-export const updateInventory = async(id, newField) => {
+export const updateInventory = async (id, newField) => {
     const stockDoc = doc(db, "inventory", id);
-  
+
     await updateDoc(stockDoc, newField);
 }
