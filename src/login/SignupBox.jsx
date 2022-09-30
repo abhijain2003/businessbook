@@ -25,7 +25,6 @@ export async function getServerSideProps(context) {
 
 function SignupBox({ data }) {
 
-    console.log(data);
 
     const navigate = useNavigate();
 
@@ -62,15 +61,15 @@ function SignupBox({ data }) {
                 setimageArr((prev) => [...prev, url]);
             });
         }).catch((err) => {
-            errorNotify();
-            console.log(err);
+            errorNotify()
+            console.log(err)
         })
     }
 
     //handle sign-up
     async function handleUserSign() {
-        var found = data.filter((com) => com.companyNumber === Number(number));
-        var foundId = data.filter((com) => com.loginId === LoginId);
+        var found = data !== undefined ? data.filter((com) => com.companyNumber === Number(number)) : [];
+        var foundId = data !== undefined ? data.filter((com) => com.loginId === LoginId) : [];
 
         if (found.length === 0 && foundId.length !== 0) {
             infoNotify("loginId is not available")
