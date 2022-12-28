@@ -116,19 +116,19 @@ const Ledger = () => {
   useEffect(() => {
     let commonArray = Ldata.filter((com) => {
       if (com.user === "common") {
-        return com.accounts
+        return com?.accounts
       }
     })
 
     let userSpecifiedArray = Ldata.filter((com) => {
       if (com.user === route.user) {
-        return com.accounts
+        return com?.accounts
       }
     })
 
-    commonArray = commonArray[0].accounts;
+    commonArray = commonArray[0]?.accounts;
     if (userSpecifiedArray.length !== 0) {
-      userSpecifiedArray = userSpecifiedArray[0].accounts
+      userSpecifiedArray = userSpecifiedArray[0]?.accounts
     }
     const finalArray = commonArray.concat(userSpecifiedArray);
 
