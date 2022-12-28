@@ -23,7 +23,7 @@ const useKeyPress = function (targetKey) {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     window.addEventListener("keydown", downHandler);
     window.addEventListener("keyup", upHandler);
 
@@ -120,7 +120,7 @@ const ReciptInvoice = () => {
     setcustomerList(foundSale.map((val) => {
       return val.buyer;
     }));
-  }, [foundSale])
+  }, [])
 
   const successNotify = () => toast.success("Successfully Added", { autoClose: 1000 });
   const errorNotify = () => toast.error("Error occurred", { autoClose: 1000 });

@@ -56,7 +56,7 @@ function App() {
         <Route element={<InventoryManagement />} path="/user/:user/inventorymanagement" />
         <Route element={<ClientAnalytics />} path='/user/:user/clientanalytic' />
         <Route element={<GrowthData />} path='/user/:user/growthchart' />
-        <Route element={<FinalAccount />} path='/user/:user/final' />
+        {/* <Route element={<FinalAccount />} path='/user/:user/final' /> */}
         <Route element={<RecieptBook />} path="/user/:user/recieptbook" />
         <Route element={<RecieptInvoice />} path="/user/:user/recieptinvoice" />
         <Route element={<Ledger />} path="/user/:user/ledger" />

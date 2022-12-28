@@ -19,7 +19,7 @@ function TrialBalance() {
   let years = ["2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032"];
 
   //fetching user data
-  const currUser = Udata.filter((val) => {
+  const currUser = Udata?.filter((val) => {
     if (val.companyName === route.user) {
       return val
     }
@@ -27,7 +27,7 @@ function TrialBalance() {
 
 
   // finding last year closing stock
-  const tradingAcc = Fdata.filter((val) => {
+  const tradingAcc = Fdata?.filter((val) => {
     if (val.user === route.user && val.EntryYear === new Date().getFullYear() - 1) {
       return val
     }
@@ -35,7 +35,7 @@ function TrialBalance() {
 
   const [openingStock, setopeningStock] = useState(0);
   useEffect(() => {
-    if (tradingAcc.length !== 0) {
+    if (tradingAcc?.length !== 0) {
       setopeningStock(tradingAcc[0].closingStocks)
     }
   }, [tradingAcc])
@@ -44,7 +44,7 @@ function TrialBalance() {
 
   const [ledgerEntries, setledgerEntries] = useState([]);
   //fetching current year ledger entry data
-  const ledgerEntryData = Lentrydata.filter((val) => {
+  const ledgerEntryData = Lentrydata?.filter((val) => {
     if (val.user === route.user && new Date(val.dateOfEntry).getFullYear() === new Date().getFullYear()) {
       return val
     }
@@ -57,10 +57,10 @@ function TrialBalance() {
 
   useEffect(() => {
     handleReset()
-  })
+  },[])
 
   function handleSearch() {
-    const ledgerEntryData = Lentrydata.filter((val) => {
+    const ledgerEntryData = Lentrydata?.filter((val) => {
       if (val.user === route.user && new Date(val.dateOfEntry).getFullYear() === Number(yearVal)) {
         return val
       }
@@ -69,32 +69,32 @@ function TrialBalance() {
   }
 
   //common ledger accounts
-  let commonLedgerAccounts = Ldata.filter((val) => {
+  let commonLedgerAccounts = Ldata?.filter((val) => {
     if (val.user === 'common') {
       return val
     }
   });
-  commonLedgerAccounts = commonLedgerAccounts[0].accounts;
+  commonLedgerAccounts = commonLedgerAccounts[0]?.accounts;
 
 
   //user specified ledger accounts
-  let userSpecificLedgerAccounts = Ldata.filter((val) => {
+  let userSpecificLedgerAccounts = Ldata?.filter((val) => {
     if (val.user === route.user) {
       return val
     }
   });
-  userSpecificLedgerAccounts = userSpecificLedgerAccounts[0].accounts;
+  userSpecificLedgerAccounts = userSpecificLedgerAccounts[0]?.accounts;
 
 
   //  finding debtors lists
-  const debtorLists = userSpecificLedgerAccounts.filter((val) => {
+  const debtorLists = userSpecificLedgerAccounts?.filter((val) => {
     if (val.type === 'debtor') {
       return val
     }
   })
 
   //  finding asset lists
-  const creditorsList = userSpecificLedgerAccounts.filter((val) => {
+  const creditorsList = userSpecificLedgerAccounts?.filter((val) => {
     if (val.type === 'creditor') {
       return val
     }
@@ -103,15 +103,15 @@ function TrialBalance() {
 
   //finding credit sales
   let creditSales = [];
-  debtorLists.map((val) => {
-    let data = ledgerEntries.filter((entry) => {
+  debtorLists?.map((val) => {
+    let data = ledgerEntries?.filter((entry) => {
       if (entry.CreditAccount === 'sales-account' && entry.DebitAccount === val.value) {
         return entry
       }
     })
-    data.length !== 0 ? creditSales.push(data[0]) : hello()
+    data?.length !== 0 ? creditSales.push(data[0]) : hello()
   })
-  creditSales = creditSales.map((val) => {
+  creditSales = creditSales?.map((val) => {
     return val.DebitAmount
   })
   var creditSaleSum = creditSales.reduce((acc, curr) => { return acc + curr }, 0)
@@ -124,15 +124,15 @@ function TrialBalance() {
 
   //finding pay after sales
   let amoutforSales = [];
-  debtorLists.map((val) => {
-    let data = ledgerEntries.filter((entry) => {
+  debtorLists?.map((val) => {
+    let data = ledgerEntries?.filter((entry) => {
       if (entry.CreditAccount === val.value && (entry.DebitAccount === 'cash-account' || entry.DebitAccount === currUser[0].bankName)) {
         return entry
       }
     })
-    data.length !== 0 ? amoutforSales.push(data[0]) : hello()
+    data?.length !== 0 ? amoutforSales.push(data[0]) : hello()
   })
-  amoutforSales = amoutforSales.map((val) => {
+  amoutforSales = amoutforSales?.map((val) => {
     return val.DebitAmount
   })
   var amountafterSales = amoutforSales.reduce((acc, curr) => { return acc + curr }, 0)
@@ -141,15 +141,15 @@ function TrialBalance() {
 
   //finding sales return 
   let salesReturn = [];
-  debtorLists.map((val) => {
-    let data = ledgerEntries.filter((entry) => {
+  debtorLists?.map((val) => {
+    let data = ledgerEntries?.filter((entry) => {
       if (entry.DebitAccount === 'sales-return' && entry.CreditAccount === val.value) {
         return entry
       }
     })
-    data.length !== 0 ? salesReturn.push(data[0]) : hello()
+    data?.length !== 0 ? salesReturn.push(data[0]) : hello()
   })
-  salesReturn = salesReturn.map((val) => {
+  salesReturn = salesReturn?.map((val) => {
     return val.DebitAmount
   })
   var salesReturnAmount = salesReturn.reduce((acc, curr) => { return acc + curr }, 0)
@@ -157,15 +157,15 @@ function TrialBalance() {
 
   //finding credit purchases
   let creditPurchase = [];
-  creditorsList.map((val) => {
-    let data = ledgerEntries.filter((entry) => {
+  creditorsList?.map((val) => {
+    let data = ledgerEntries?.filter((entry) => {
       if (entry.DebitAccount === 'purchase-account' && entry.CreditAccount === val.value) {
         return entry
       }
     })
-    data.length !== 0 ? creditPurchase.push(data[0]) : hello()
+    data?.length !== 0 ? creditPurchase.push(data[0]) : hello()
   })
-  creditPurchase = creditPurchase.map((val) => {
+  creditPurchase = creditPurchase?.map((val) => {
     return val.DebitAmount
   })
   var creditPurchaseSum = creditPurchase.reduce((acc, curr) => { return acc + curr }, 0)
@@ -173,15 +173,15 @@ function TrialBalance() {
 
   //finding pay after purchase
   let amoutforPurchase = [];
-  creditorsList.map((val) => {
-    let data = ledgerEntries.filter((entry) => {
+  creditorsList?.map((val) => {
+    let data = ledgerEntries?.filter((entry) => {
       if (entry.DebitAccount === val.value && (entry.CreditAccount === 'cash-account' || entry.CreditAccount === currUser[0].bankName)) {
         return entry
       }
     })
-    data.length !== 0 ? amoutforPurchase.push(data[0]) : hello()
+    data?.length !== 0 ? amoutforPurchase.push(data[0]) : hello()
   })
-  amoutforPurchase = amoutforPurchase.map((val) => {
+  amoutforPurchase = amoutforPurchase?.map((val) => {
     return val.DebitAmount
   })
   var amountafterPurchase = amoutforPurchase.reduce((acc, curr) => { return acc + curr }, 0)
@@ -189,15 +189,15 @@ function TrialBalance() {
 
   //finding purchase return 
   let purchaseReturn = [];
-  creditorsList.map((val) => {
-    let data = ledgerEntries.filter((entry) => {
+  creditorsList?.map((val) => {
+    let data = ledgerEntries?.filter((entry) => {
       if (entry.CreditAccount === 'purchase-return' && entry.DebitAccount === val.value) {
         return entry
       }
     })
-    data.length !== 0 ? purchaseReturn.push(data[0]) : hello()
+    data?.length !== 0 ? purchaseReturn.push(data[0]) : hello()
   })
-  purchaseReturn = purchaseReturn.map((val) => {
+  purchaseReturn = purchaseReturn?.map((val) => {
     return val.DebitAmount
   })
   var purchaseReturnAmount = purchaseReturn.reduce((acc, curr) => { return acc + curr }, 0)
@@ -210,7 +210,7 @@ function TrialBalance() {
   finalDebitSideSum += sundryDebtors;
   finalCreditSideSum += sundryCreditor
 
-  userSpecificLedgerAccounts = userSpecificLedgerAccounts.filter((val) => {
+  userSpecificLedgerAccounts = userSpecificLedgerAccounts?.filter((val) => {
     if (val.type !== 'debtor' && val.type !== 'creditor') {
       return val
     }
@@ -223,7 +223,7 @@ function TrialBalance() {
       <div className='w-[90%] mt-12 sm:w-[50%] grid grid-cols-3 gap-x-2' >
         <select onChange={(e) => setyearVal(e.target.value)} className="bg-slate-200 p-2 rounded-[8px]">
           <option value="">Year</option>
-          {years.map((yer, i) => (
+          {years?.map((yer, i) => (
             <option key={i} value={yer}>{yer}</option>
           ))}
         </select>
@@ -255,14 +255,14 @@ function TrialBalance() {
           <p>{sundryCreditor}</p>
         </div>
         {
-          userSpecificLedgerAccounts.map((accountType, i) => {
-            let debitEntries = ledgerEntries.filter((entry) => {
+          userSpecificLedgerAccounts?.map((accountType, i) => {
+            let debitEntries = ledgerEntries?.filter((entry) => {
               if (accountType.value === entry.DebitAccount) {
                 return entry
               }
             })
 
-            let creditEntries = ledgerEntries.filter((entry) => {
+            let creditEntries = ledgerEntries?.filter((entry) => {
               if (accountType.value === entry.CreditAccount) {
                 return entry
               }
@@ -270,9 +270,9 @@ function TrialBalance() {
 
             let debitEntrySum = 0;
             let creditEntrySum = 0;
-            if (debitEntries.length !== 0 || creditEntries.length !== 0) {
-              debitEntries = debitEntries.map((val) => { return val.DebitAmount });
-              creditEntries = creditEntries.map((val) => { return val.DebitAmount });
+            if (debitEntries?.length !== 0 || creditEntries?.length !== 0) {
+              debitEntries = debitEntries?.map((val) => { return val.DebitAmount });
+              creditEntries = creditEntries?.map((val) => { return val.DebitAmount });
 
 
               debitEntrySum = debitEntries.reduce((curr, acc) => { return curr + acc }, 0)
@@ -292,15 +292,15 @@ function TrialBalance() {
         }
 
         {
-          commonLedgerAccounts.map((accountType, i) => {
+          commonLedgerAccounts?.map((accountType, i) => {
 
-            let debitEntries = ledgerEntries.filter((entry) => {
+            let debitEntries = ledgerEntries?.filter((entry) => {
               if (accountType.value === entry.DebitAccount) {
                 return entry
               }
             })
 
-            let creditEntries = ledgerEntries.filter((entry) => {
+            let creditEntries = ledgerEntries?.filter((entry) => {
               if (accountType.value === entry.CreditAccount) {
                 return entry
               }
@@ -308,9 +308,9 @@ function TrialBalance() {
 
             let debitEntrySum = 0;
             let creditEntrySum = 0;
-            if (debitEntries.length !== 0 || creditEntries.length !== 0) {
-              debitEntries = debitEntries.map((val) => { return val.DebitAmount });
-              creditEntries = creditEntries.map((val) => { return val.DebitAmount });
+            if (debitEntries?.length !== 0 || creditEntries?.length !== 0) {
+              debitEntries = debitEntries?.map((val) => { return val.DebitAmount });
+              creditEntries = creditEntries?.map((val) => { return val.DebitAmount });
 
 
               debitEntrySum = debitEntries.reduce((curr, acc) => { return curr + acc }, 0)

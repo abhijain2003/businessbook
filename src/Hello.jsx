@@ -119,7 +119,7 @@ function Hello() {
     { id: 9, name: "Trial Balance", routing: `/user/${param.user}/trialbalance` },
     { id: 10, name: "Reciept Invoice", routing: `/user/${param.user}/recieptinvoice` },
     { id: 11, name: "Reciept Book", routing: `/user/${param.user}/recieptbook` },
-    { id: 12, name: "Final Account", routing: `/user/${param.user}/final` },
+    // { id: 12, name: "Final Account", routing: `/user/${param.user}/` },
   ];
 
   const settings = {

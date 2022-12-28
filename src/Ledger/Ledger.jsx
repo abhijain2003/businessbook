@@ -53,24 +53,24 @@ const Ledger = () => {
   const [hovered, setHovered] = useState(undefined);
 
   useEffect(() => {
-    if (items.length && downPress) {
+    if (items?.length && downPress) {
       setCursor((prevState) =>
-        prevState < items.length - 1 ? prevState + 1 : prevState
+        prevState < items?.length - 1 ? prevState + 1 : prevState
       );
     }
   }, [downPress]);
   useEffect(() => {
-    if (items.length && upPress) {
+    if (items?.length && upPress) {
       setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
     }
   }, [upPress]);
   useEffect(() => {
-    if (items.length && enterPress) {
+    if (items?.length && enterPress) {
       setSelected(items[cursor]);
     }
   }, [cursor, enterPress]);
   useEffect(() => {
-    if (items.length && hovered) {
+    if (items?.length && hovered) {
       setCursor(items.indexOf(hovered));
     }
   }, [hovered]);
@@ -114,23 +114,23 @@ const Ledger = () => {
 
   // assigning all ledger account in useState
   useEffect(() => {
-    let commonArray = Ldata.filter((com) => {
+    let commonArray = Ldata?.filter((com) => {
       if (com.user === "common") {
         return com?.accounts
       }
     })
 
-    let userSpecifiedArray = Ldata.filter((com) => {
+    let userSpecifiedArray = Ldata?.filter((com) => {
       if (com.user === route.user) {
         return com?.accounts
       }
     })
 
     commonArray = commonArray[0]?.accounts;
-    if (userSpecifiedArray.length !== 0) {
+    if (userSpecifiedArray?.length !== 0) {
       userSpecifiedArray = userSpecifiedArray[0]?.accounts
     }
-    const finalArray = commonArray.concat(userSpecifiedArray);
+    const finalArray = commonArray?.concat(userSpecifiedArray);
 
     setallLedgerAccounts(finalArray)
   }, [Ldata, route.user]);
@@ -142,16 +142,16 @@ const Ledger = () => {
 
   useEffect(() => {
     function foundaccounts() {
-      setfoundDebitAccount(allLedgerAccounts.filter((val) => {
-        if (debitAccountValue.length === 0) {
+      setfoundDebitAccount(allLedgerAccounts?.filter((val) => {
+        if (debitAccountValue?.length === 0) {
           return null;
         } else if (val.value.split("-").join(" ").toLowerCase().includes(debitAccountValue.toLowerCase())) {
           return val;
         }
       }))
 
-      setfoundCreditAccount(allLedgerAccounts.filter((val) => {
-        if (creditAccountValue.length === 0) {
+      setfoundCreditAccount(allLedgerAccounts?.filter((val) => {
+        if (creditAccountValue?.length === 0) {
           return null;
         } else if (val.value.split("-").join(" ").toLowerCase().includes(creditAccountValue.toLowerCase())) {
           return val;
@@ -168,7 +168,7 @@ const Ledger = () => {
       .querySelectorAll("input")[0].addEventListener(
         "keydown",
         function (e) {
-          if (e.shiftKey && foundDebitAccount.length !== 0) {
+          if (e.shiftKey && foundDebitAccount?.length !== 0) {
             setdebitAccountValue(foundDebitAccount[0].value.split("-").join(" "))
           }
         },
@@ -180,7 +180,7 @@ const Ledger = () => {
       .querySelectorAll("input")[2].addEventListener(
         "keydown",
         function (e) {
-          if (e.shiftKey && foundCreditAccount.length !== 0) {
+          if (e.shiftKey && foundCreditAccount?.length !== 0) {
             setcreditAccountValue(foundCreditAccount[0].value.split("-").join(" "))
           }
         },
@@ -191,23 +191,23 @@ const Ledger = () => {
   //this is for updating accounts when user create new account
   async function handleUpdate() {
 
-    let existedAccount = allLedgerAccounts.filter((val) => {
+    let existedAccount = allLedgerAccounts?.filter((val) => {
       if (val.type === newAccountType && val.value === newAccountName) {
         return val;
       }
     })
 
-    if (existedAccount.length !== 0) {
+    if (existedAccount?.length !== 0) {
       infoNotify("Account already existed");
     } else if (newAccountName !== "" && newAccountType !== "") {
 
-      let foundUserSpecifiedAccount = Ldata.filter((com) => {
+      let foundUserSpecifiedAccount = Ldata?.filter((com) => {
         if (com.user === route.user) {
           return com;
         }
       })
       //if user is adding custom ledger account first time
-      if (foundUserSpecifiedAccount.length === 0) {
+      if (foundUserSpecifiedAccount?.length === 0) {
         await addLedgerAccount(newAccountName, newAccountType, route.user)
           .then((res) => {
             successNotify();
@@ -281,13 +281,13 @@ const Ledger = () => {
     }
   }
 
-  const currUserSale = Sdata.filter((val) => {
+  const currUserSale = Sdata?.filter((val) => {
     if (val.user === route.user) {
       return val
     }
   })
 
-  const currUserPurchase = Pdata.filter((val) => {
+  const currUserPurchase = Pdata?.filter((val) => {
     if (val.user === route.user) {
       return val
     }
@@ -303,7 +303,7 @@ const Ledger = () => {
             <h1 className="font-medium my-8 font-bold uppercase" >All Accounts</h1>
             <p onClick={() => setviewAll([false, -1])} className="hover:scale-150 cursor-pointer" style={{ transition: '0.3s ease-in' }} >x</p>
           </div>
-          <div style={{ overflowY: 'auto', marginBottom: '10px' }} >{allLedgerAccounts.map((val, m) => (
+          <div style={{ overflowY: 'auto', marginBottom: '10px' }} >{allLedgerAccounts?.map((val, m) => (
             <p onClick={() => handleSetValue(m, viewAll[1])} key={m} className="cursor-pointer w-full px-3 py-2 text-sm leading-tight uppercase font-medium text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" >{val.value + "(" + val.type + ")"}</p>
           ))}</div>
         </div>
@@ -315,15 +315,15 @@ const Ledger = () => {
         <h1 className="text-gray-700 bg-blue-100 text-center font-medium text-[25px] my-8 font-bold uppercase" >{found[0].companyName.split("-").join(" ").charAt(0).toUpperCase() + found[0].companyName.split("-").join(" ").slice(1)}  Ledger Entry</h1>
         <div id="container" className="bg-white w-full overflow-y-auto mb-4 lg:grid lg:grid-cols-2 md:h-[500px] border-2 border-black" >
           {/* debit and credit entry div */}
-          {ledgerArray.map((val, i) => (
+          {ledgerArray?.map((val, i) => (
             <div key={i} className="mb-4 md:mr-2 md:mb-0 w-[80%] mx-auto grid" style={{ gridTemplateRows: '10% 40% 25% 25%' }} >
               <h1 className="font-medium text-[20px] font-bold uppercase" >{val}</h1>
 
-              {/* search filter result */}
+              {/* search ?.filter result */}
               <div style={{ overflowY: 'auto' }} className="h-[160px] flex flex-col items-center justify-center" >{
-                i === 0 && foundDebitAccount.length !== 0 ? foundDebitAccount.map((val, k) => (
+                i === 0 && foundDebitAccount?.length !== 0 ? foundDebitAccount?.map((val, k) => (
                   <p key={k} className="uppercase font-medium w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" >{val.value.split("-").join(" ")}</p>
-                )) : i === 1 && foundCreditAccount.length !== 0 ? foundCreditAccount.map((val, k) => (
+                )) : i === 1 && foundCreditAccount?.length !== 0 ? foundCreditAccount?.map((val, k) => (
                   <p key={k} className="uppercase font-medium w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" >{val.value.split("-").join(" ")}</p>
                 )) : <div className="flex flex-col" >
                   <button onClick={() => setviewAll([true, i])} className=" text-white bg-blue-600 hover:bg-blue-100 hover:text-blue-600 ml-2 p-2 rounded-[10px] h-[50px] mt-2" >View All</button>
@@ -435,12 +435,12 @@ const Ledger = () => {
 
           {newAccountType === "debtor" ? <select onChange={(e) => setnewAccountName((e.target.value).split(" ").join("-").toLowerCase())} style={{ border: '1px solid black' }} className="w-[80%] mx-auto px-3 py-2 text-sm leading-tight text-gray-700 rounded shadow focus:outline-none focus:shadow-outline">
             <option value="" >Sundry Debtors List</option>
-            {currUserSale.map((val, i) => (
+            {currUserSale?.map((val, i) => (
               <option key={i} >{val.buyer.toUpperCase().split("-").join(" ")}</option>
             ))}
           </select> : newAccountType === "creditor" ? <select onChange={(e) => setnewAccountName((e.target.value).split(" ").join("-").toLowerCase())} style={{ border: '1px solid black' }} className="w-[80%] mx-auto px-3 py-2 text-sm leading-tight text-gray-700 rounded shadow focus:outline-none focus:shadow-outline">
             <option value="" >Sundry Creditors List</option>
-            {currUserPurchase.map((val, i) => (
+            {currUserPurchase?.map((val, i) => (
               <option key={i} >{val.Supplier.toUpperCase().split("-").join(" ")}</option>
             ))}
           </select> : <input value={newAccountName} onChange={(e) => setnewAccountName((e.target.value).split(" ").join("-").toLowerCase())} style={{ border: '1px solid black' }}

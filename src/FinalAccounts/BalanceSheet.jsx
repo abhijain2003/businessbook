@@ -31,7 +31,7 @@ function BalanceSheet({
     })
 
     if (data.length === 0) {
-      alert("You have not added it to your database")
+      // alert("You have not added it to your database")
     }
   }, [FinalData]);
 

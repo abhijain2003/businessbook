@@ -25,42 +25,42 @@ function LedgerRecord() {
   const [allAccountType, setallAccountType] = useState([]);
 
   useEffect(() => {
-    const userLedgerEntryData = LedgerEntrydata.filter((com) => com.user === name);
+    const userLedgerEntryData = LedgerEntrydata?.filter((com) => com.user === name);
     setallAccountType(userLedgerEntryData)
   }, [LedgerEntrydata, name])
 
 
   const [allLedgerAccounts, setallLedgerAccounts] = useState([]);
   useEffect(() => {
-    let commonArray = LedgerAccountData.filter((com) => {
+    let commonArray = LedgerAccountData?.filter((com) => {
       if (com.user === "common") {
-        return com.accounts
+        return com?.accounts
       }
     })
 
-    let userSpecifiedArray = LedgerAccountData.filter((com) => {
+    let userSpecifiedArray = LedgerAccountData?.filter((com) => {
       if (com.user === name) {
-        return com.accounts
+        return com?.accounts
       }
     })
-    commonArray = commonArray[0].accounts;
-    if (userSpecifiedArray.length !== 0) {
-      userSpecifiedArray = userSpecifiedArray[0].accounts
+    commonArray = commonArray[0]?.accounts;
+    if (userSpecifiedArray?.length !== 0) {
+      userSpecifiedArray = userSpecifiedArray[0]?.accounts
     }
-    const finalArray = commonArray.concat(userSpecifiedArray);
+    const finalArray = commonArray?.concat(userSpecifiedArray);
 
     setallLedgerAccounts(finalArray)
   }, [LedgerAccountData, name])
 
   //reseting all filters
   function handleReset() {
-    setallAccountType(LedgerEntrydata.filter((com) => com.user === name))
+    setallAccountType(LedgerEntrydata?.filter((com) => com.user === name))
   }
 
 
   //searching filters
   function handleSearch() {
-    setallAccountType(LedgerEntrydata.filter((val) => {
+    setallAccountType(LedgerEntrydata?.filter((val) => {
       let entryDate = new Date(val.dateOfEntry);
       let monthValue = entryDate.getMonth();
       let yearValue = entryDate.getFullYear();
@@ -126,20 +126,20 @@ function LedgerRecord() {
 
 
 
-      {allLedgerAccounts.filter((val) => {
+      {allLedgerAccounts?.filter((val) => {
         if (searchVal === "") {
           return val
         } else if (val.value.split("-").join(" ").toLowerCase().includes(searchVal.toLowerCase())) {
           return val
         }
       }).map((accountType, i) => {
-        const debitEntries = allAccountType.filter((entry) => {
+        const debitEntries = allAccountType?.filter((entry) => {
           if (accountType.value === entry.DebitAccount) {
             return entry
           }
         })
 
-        const creditEntries = allAccountType.filter((entry) => {
+        const creditEntries = allAccountType?.filter((entry) => {
           if (accountType.value === entry.CreditAccount) {
             return entry
           }
@@ -148,7 +148,7 @@ function LedgerRecord() {
         let debitTotal = 0;
         let creditTotal = 0;
 
-        if (debitEntries.length !== 0 || creditEntries.length !== 0) {
+        if (debitEntries?.length !== 0 || creditEntries?.length !== 0) {
 
           return (
             <div className='w-[95%] sm:w-[70%] mx-auto uppercase font-medium text-[15px]' key={i}>
